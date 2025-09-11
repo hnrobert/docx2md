@@ -19,6 +19,16 @@ A Python-based DOCX to Markdown converter that supports converting Microsoft Wor
 
 ## Installation
 
+### Install from source
+
+```bash
+git clone https://github.com/HNRobert/docx-markdown-converter.git
+cd docx-markdown-converter
+pip install -e .
+```
+
+### Install dependencies only
+
 ```bash
 pip install -r requirements.txt
 ```
@@ -31,34 +41,73 @@ pip install python-docx
 
 ## Usage
 
-### Basic Usage
+### Command Line Tool
+
+After installation, you can use the `docx2md` command:
+
+```bash
+# Convert single file
+docx2md document.docx
+
+# Specify output file
+docx2md document.docx -o output.md
+
+# Show verbose output
+docx2md document.docx -v
+
+# Batch conversion
+docx2md *.docx -o output_directory/
+```
+
+### Python Script
+
+You can also run the converter directly:
 
 ```bash
 # Convert single file to auto-generated folder structure
-python src/main.py document.docx
+python main.py document.docx
 
 # Specify output file
-python src/main.py document.docx -o output.md
+python main.py document.docx -o output.md
 
 # Show verbose output
-python src/main.py document.docx -o output.md -v
+python main.py document.docx -o output.md -v
 ```
 
 ### Advanced Usage
 
 ```bash
 # Batch conversion to output directory
-python src/main.py *.docx -o output_directory/
+python main.py *.docx -o output_directory/
 
 # Output to stdout
-python src/main.py document.docx
+python main.py document.docx
 ```
 
 ## Project Structure
 
-The project provides a comprehensive converter with advanced features:
+The project is now organized as a modular package:
 
-- **src/main.py** - Full-featured converter with image extraction, smart title handling, and batch processing
+```text
+docx-markdown-converter/
+├── main.py                    # Main entry point
+├── docx_converter/            # Main package
+│   ├── __init__.py           # Package initialization
+│   ├── cli.py                # Command line interface
+│   ├── converter.py          # Main converter class
+│   ├── document_processor.py # Document processing logic
+│   ├── paragraph_processor.py # Paragraph processing
+│   ├── formatting.py         # Text formatting (bold, italic, etc.)
+│   ├── list_processor.py     # List handling
+│   ├── table_processor.py    # Table conversion
+│   ├── image_processor.py    # Image processing in paragraphs
+│   ├── image_extractor.py    # Image extraction from DOCX
+│   └── utils.py              # Utility functions
+├── assets/
+│   └── sample.docx           # Sample test file
+├── requirements.txt          # Dependencies
+└── README.md                # Documentation
+```
 
 ## Supported Formats
 
@@ -75,7 +124,7 @@ The project provides a comprehensive converter with advanced features:
 
 ### Lists
 
-- Unordered lists (•, -, * etc.) → `- Item`
+- Unordered lists (•, -, \* etc.) → `- Item`
 - Ordered lists (1., 2., etc.) → `1. Item`
 
 ### Tables
@@ -124,7 +173,7 @@ A document with the following structure:
 
 #### Title 3
 
-This is a paragraph with **bold text**, *italic text*, and <u>underlined text</u>.
+This is a paragraph with **bold text**, _italic text_, and <u>underlined text</u>.
 
 - Unordered list item 1
 - Unordered list item 2
@@ -141,34 +190,69 @@ This is a paragraph with **bold text**, *italic text*, and <u>underlined text</u
 
 ```text
 docx-markdown-converter/
-├── src/
-│   └── main.py            # Full-featured converter
+├── main.py                    # Main entry point
+├── docx_converter/            # Main package
+│   ├── __init__.py           # Package initialization
+│   ├── cli.py                # Command line interface
+│   ├── converter.py          # Main converter class
+│   ├── document_processor.py # Document processing logic
+│   ├── paragraph_processor.py # Paragraph processing
+│   ├── formatting.py         # Text formatting (bold, italic, etc.)
+│   ├── list_processor.py     # List handling
+│   ├── table_processor.py    # Table conversion
+│   ├── image_processor.py    # Image processing in paragraphs
+│   ├── image_extractor.py    # Image extraction from DOCX
+│   └── utils.py              # Utility functions
 ├── assets/
-│   └── sample.docx        # Sample test file
-├── requirements.txt       # Dependencies
-├── .venv/                 # Virtual environment
-└── README.md             # Documentation
+│   └── sample.docx           # Sample test file
+├── requirements.txt          # Dependencies
+└── README.md                # Documentation
 ```
 
-### Key Features Implementation
+### Architecture Benefits
 
-The converter includes several advanced features:
+- **Modular Design**: Each component has a single responsibility
+- **Easy Testing**: Individual modules can be tested independently
+- **Maintainable**: Clear separation of concerns
+- **Extensible**: Easy to add new features or modify existing ones
 
-- **Smart Title Handling**: Automatically detects "Title" style and adjusts all heading levels accordingly
-- **Format Merging**: Intelligently merges adjacent formatting tags (e.g., `<u>Under</u><u>lined</u>` → `<u>Underlined</u>`)
-- **Image Extraction**: Extracts images from DOCX files and creates proper folder structure
-- **List Detection**: Handles various list formats and styles
-- **Table Conversion**: Converts Word tables to Markdown format
+### Key Modules
+
+- **`DocxToMarkdownConverter`**: Main orchestrator class
+- **`DocumentProcessor`**: Handles document-level processing and title detection
+- **`ParagraphProcessor`**: Manages paragraph conversion and formatting
+- **`ImageExtractor`**: Extracts and maps images from DOCX files
+- **`ListProcessor`**: Handles ordered and unordered list conversion
+- **`TableProcessor`**: Converts Word tables to Markdown format
+- **`TextFormatter`**: Handles text formatting (bold, italic, underline)
 
 ### Extending Functionality
 
-To add more features, modify the converter class methods:
+The modular structure makes it easy to extend functionality:
 
-- `_convert_document()` - Main document processing
-- `_convert_paragraph()` - Paragraph processing
-- `_convert_paragraph_formatting()` - Text formatting
-- `_convert_table()` - Table processing
-- `_extract_images()` - Image extraction
+#### Adding New Text Formatting
+
+Edit `docx_converter/formatting.py` to add support for new text styles.
+
+#### Supporting New List Types
+
+Modify `docx_converter/list_processor.py` to handle different list formats.
+
+#### Enhancing Image Processing
+
+Update `docx_converter/image_processor.py` and `docx_converter/image_extractor.py` for advanced image handling.
+
+#### Custom Document Elements
+
+Add new processors in the `docx_converter/` directory and integrate them via `document_processor.py`.
+
+### Development Workflow
+
+1. Install dependencies: `pip install -r requirements.txt`
+2. Run tests: `python main.py assets/sample.docx`
+3. Add new features in appropriate modules
+4. Test with various DOCX files
+5. Update documentation
 
 ## Notes
 
