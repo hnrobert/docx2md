@@ -42,6 +42,7 @@
         "spyderproject",
         "spyproject",
         "Streamlit",
+        "twips",
         "venv",
         "webassets"
     ],

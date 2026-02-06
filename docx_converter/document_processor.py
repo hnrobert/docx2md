@@ -2,7 +2,7 @@
 Document processing module for handling main document conversion.
 """
 
-from typing import Any, List, Dict
+from typing import Any, Dict, List
 
 from .paragraph_processor import ParagraphProcessor
 from .table_processor import TableProcessor

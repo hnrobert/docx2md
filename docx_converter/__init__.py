@@ -6,10 +6,10 @@ Also supports legacy .doc files by converting them to .docx (requires LibreOffic
 Supports conversion of text, headings, lists, tables, links and other basic formats.
 """
 
-from .converter import DocxToMarkdownConverter
 from .cli import main
+from .converter import DocxToMarkdownConverter
 
-__version__ = "1.0.0"
-__author__ = "HNRobert"
+__version__ = "1.0.1"
+__author__ = "hnrobert"
 
 __all__ = ['DocxToMarkdownConverter', 'main']

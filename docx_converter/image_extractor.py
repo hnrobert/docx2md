@@ -5,8 +5,8 @@ Image extraction module for DOCX files.
 import logging
 import os
 import shutil
-import zipfile
 import xml.etree.ElementTree as ET
+import zipfile
 from typing import Dict, Optional
 
 logger = logging.getLogger(__name__)

@@ -3,11 +3,10 @@ Utility functions for DOCX to Markdown conversion.
 """
 
 import re
-from typing import List, Dict, Set, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
 
 try:
     from docx.text.paragraph import Paragraph
-    from docx.shared import Pt
 except ImportError:
     print("Error: Missing required library. Please run: pip install python-docx")
     import sys

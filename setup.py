@@ -14,7 +14,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="word2md",
-    version="1.0.0",
+    version="1.0.1",
     author="hnrobert",
     description="A Python tool for converting Microsoft Word documents (.docx/.doc) to Markdown format",
     long_description=long_description,

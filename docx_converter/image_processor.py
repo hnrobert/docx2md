@@ -3,7 +3,6 @@ Image processing module for handling images in paragraphs.
 """
 
 import logging
-from typing import List
 
 try:
     from docx.text.paragraph import Paragraph

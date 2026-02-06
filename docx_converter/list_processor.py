@@ -4,7 +4,8 @@ List processing module for handling ordered and unordered lists.
 
 from typing import Dict, List, Optional
 
-from .utils import is_list_marker_text, is_numbered_list_text, remove_list_markers
+from .utils import (is_list_marker_text, is_numbered_list_text,
+                    remove_list_markers)
 
 try:
     from docx.text.paragraph import Paragraph
