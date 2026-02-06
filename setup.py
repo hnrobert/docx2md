@@ -15,11 +15,11 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="docx2md",
     version="1.0.0",
-    author="HNRobert",
+    author="hnrobert",
     description="A Python tool for converting Microsoft Word documents (.docx/.doc) to Markdown format",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/HNRobert/docx2md",
+    url="https://github.com/hnrobert/docx2md",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
