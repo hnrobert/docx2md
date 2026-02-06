@@ -1,4 +1,4 @@
-# DOCX to Markdown Converter
+# MS Word to Markdown Converter
 
 A Python-based Word to Markdown converter for Microsoft Word documents.
 
