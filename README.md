@@ -311,7 +311,7 @@ Behavior:
 Set up:
 
 - Add `PYPI_API_TOKEN` as a repository secret (Repository Settings → Secrets and variables → Actions → New repository secret).
-- Trigger the workflow via the Actions page and supply `version` (and `tag` if you want a tag created).
+- Trigger the workflow via the Actions page and supply `version`. To create a tag/release, check the `tag` checkbox.
 
 Note: The workflow only runs on manual dispatch to avoid accidental publishes on routine pushes.
 

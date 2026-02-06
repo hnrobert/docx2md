@@ -9,7 +9,8 @@ on:
       tag:
         description: "Create and push git tag v<version>"
         required: false
-        default: "true"
+        default: true
+        type: boolean
 
 jobs:
   bump-build-and-publish:
@@ -61,7 +62,7 @@ jobs:
           fi
 
       - name: Create tag
-        if: ${{ github.event.inputs.tag == 'true' }}
+        if: ${{ github.event.inputs.tag }}
         run: |
           TAG=v${{ steps.bump.outputs.normalized }}
           if git rev-parse "$TAG" >/dev/null 2>&1; then
@@ -80,7 +81,7 @@ jobs:
           password: ${{ secrets.PYPI_API_TOKEN }}
 
       - name: Create GitHub Release and upload artifacts
-        if: ${{ github.event.inputs.tag == 'true' }}
+        if: ${{ github.event.inputs.tag }}
         uses: ncipollo/release-action@v1
         with:
           tag: v${{ steps.bump.outputs.normalized }}
