@@ -38,10 +38,16 @@ def main():
         print("Usage: bump_version.py <new-version>")
         return 1
 
-    new_version = sys.argv[1].strip()
+    raw_version = sys.argv[1].strip()
+    # Allow leading 'v' or 'V'
+    if raw_version.startswith(('v', 'V')):
+        new_version = raw_version[1:]
+    else:
+        new_version = raw_version
+
     if not validate_version(new_version):
         print(
-            f"Invalid version: {new_version}. Expect semantic version like 1.2.3")
+            f"Invalid version: {raw_version}. Expect semantic version like 1.2.3 or v1.2.3")
         return 1
 
     repo_root = Path(__file__).resolve().parents[1]
@@ -63,6 +69,9 @@ def main():
         repl = f"version=\"{new_version}\""
         if replace_in_file(setup_py, pattern, repl):
             files_changed.append(str(setup_py))
+
+    # Print normalized version for automation
+    print(new_version)
 
     if not files_changed:
         print(f"No files needed updating; already at version {new_version}.")

@@ -306,7 +306,7 @@ Behavior:
 - It requires a `version` input (semantic version like `1.0.1`).
 - It will update `docx_converter/__init__.py` and `setup.py` with the provided version.
 - If files change, it commits & pushes the change back to the `main` branch and optionally creates a `v<version>` tag.
-- Finally it builds `sdist`+`wheel` and publishes to PyPI using the `PYPI_API_TOKEN` secret.
+- Finally it builds `sdist`+`wheel` and publishes to PyPI using the `PYPI_API_TOKEN` secret. If you requested a tag (the `tag` input), the workflow will also create a GitHub Release (tag `v<version>`) and upload the generated artifacts from `dist/*` to the release.
 
 Set up:
 

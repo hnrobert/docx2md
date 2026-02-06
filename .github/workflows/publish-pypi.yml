@@ -1,4 +1,4 @@
-name: Manual publish to PyPI
+name: Release & Publish to PyPI
 
 on:
   workflow_dispatch:
@@ -37,24 +37,39 @@ jobs:
       - name: Bump version in source
         id: bump
         run: |
-          python scripts/bump_version.py "${{ github.event.inputs.version }}"
-          echo "bump_out=$?" >> "$GITHUB_OUTPUT"
+          set -o pipefail
+          out=$(python scripts/bump_version.py "${{ github.event.inputs.version }}")
+          rc=$?
+          echo "normalized=$out" >> "$GITHUB_OUTPUT"
+          echo "bump_rc=$rc" >> "$GITHUB_OUTPUT"
+          if [ $rc -eq 1 ]; then
+            echo "Invalid version provided: ${{ github.event.inputs.version }}"
+            exit 1
+          fi
 
       - name: Commit version bump
-        if: steps.bump.outputs.bump_out == '0'
+        if: steps.bump.outputs.bump_rc == '0'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add docx_converter/__init__.py setup.py
-          git commit -m "chore(release): bump version to ${{ github.event.inputs.version }}" || echo "No changes to commit"
-          git push origin HEAD:main
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore(release): bump version to ${{ steps.bump.outputs.normalized }}"
+            git push origin HEAD:main
+          fi
 
       - name: Create tag
         if: ${{ github.event.inputs.tag == 'true' }}
         run: |
-          git tag -a v${{ github.event.inputs.version }} -m "Release v${{ github.event.inputs.version }}"
-          git push origin v${{ github.event.inputs.version }}
-
+          TAG=v${{ steps.bump.outputs.normalized }}
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
+          else
+            git tag -a "$TAG" -m "Release $TAG"
+            git push origin "$TAG"
+          fi
       - name: Build distributions
         run: python -m build --sdist --wheel
 
@@ -63,3 +78,13 @@ jobs:
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
+
+      - name: Create GitHub Release and upload artifacts
+        if: ${{ github.event.inputs.tag == 'true' }}
+        uses: ncipollo/release-action@v1
+        with:
+          tag: v${{ steps.bump.outputs.normalized }}
+          name: v${{ steps.bump.outputs.normalized }}
+          artifacts: dist/*
+          draft: false
+          prerelease: false
