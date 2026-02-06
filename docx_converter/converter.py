@@ -61,7 +61,7 @@ class DocxToMarkdownConverter:
             # Convert legacy .doc to a temporary .docx (python-docx can't open .doc)
             effective_input_path = input_path
             if input_path.lower().endswith('.doc'):
-                temp_dir = tempfile.mkdtemp(prefix='docx2md_', suffix='_docx')
+                temp_dir = tempfile.mkdtemp(prefix='word2md_', suffix='_docx')
                 temp_docx_path = self._convert_doc_to_docx(
                     input_path, temp_dir)
                 effective_input_path = temp_docx_path
@@ -180,7 +180,7 @@ class DocxToMarkdownConverter:
         """Locate LibreOffice command for headless conversion across OSes.
 
         Order of checks:
-        1. Environment variable `DOCX2MD_SOFFICE_PATH`
+        1. Environment variable `WORD2MD_SOFFICE_PATH`
         2. Common executable names on PATH: `soffice`, `libreoffice`
         3. Known installation paths per-platform (macOS, Windows, common Linux locations)
         4. Flatpak/exported paths
@@ -190,13 +190,13 @@ class DocxToMarkdownConverter:
 
         # 1) Allow explicit override via environment variable
         env_path = os.environ.get(
-            'DOCX2MD_SOFFICE_PATH') or os.environ.get('SOFFICE_PATH')
+            'WORD2MD_SOFFICE_PATH') or os.environ.get('SOFFICE_PATH')
         if env_path:
             if os.path.exists(env_path) and os.access(env_path, os.X_OK):
                 return env_path
             else:
                 raise RuntimeError(
-                    f"DOCX2MD_SOFFICE_PATH is set to '{env_path}' but file is not executable or doesn't exist.")
+                    f"WORD2MD_SOFFICE_PATH is set to '{env_path}' but file is not executable or doesn't exist.")
 
         # 2) Common executable names on PATH
         for name in ('soffice', 'libreoffice'):
@@ -253,7 +253,7 @@ class DocxToMarkdownConverter:
             'To enable .doc support the converter needs LibreOffice for .doc → .docx conversion.',
             'Options:',
             "  * Install LibreOffice and ensure `soffice` is on PATH (macOS: `brew install --cask libreoffice`).",
-            "  * Set the environment variable `DOCX2MD_SOFFICE_PATH` to the soffice executable path.",
+            "  * Set the environment variable `WORD2MD_SOFFICE_PATH` to the soffice executable path.",
         ]
         raise RuntimeError('\n'.join(hint_lines))
 

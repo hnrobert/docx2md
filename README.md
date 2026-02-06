@@ -24,8 +24,8 @@ A Python-based Word to Markdown converter for Microsoft Word documents.
 ### Install from source
 
 ```bash
-git clone https://github.com/HNRobert/docx2md.git
-cd docx2md
+git clone https://github.com/HNRobert/word2md.git
+cd word2md
 pip install -e .
 ```
 
@@ -47,7 +47,7 @@ Python `python-docx` cannot read `.doc` files directly. This project supports `.
 
 - macOS: `brew install --cask libreoffice`
 - Ensure the `soffice` command is available in your `PATH` (LibreOffice installs it).
-- Alternatively, you can set the `DOCX2MD_SOFFICE_PATH` environment variable to the full path of your LibreOffice `soffice` executable (useful on Windows or custom installs).
+- Alternatively, you can set the `WORD2MD_SOFFICE_PATH` environment variable to the full path of your LibreOffice `soffice` executable (useful on Windows or custom installs).
 
 Examples:
 
@@ -55,37 +55,37 @@ Examples:
 
 ```bash
 # export the path to soffice binary
-export DOCX2MD_SOFFICE_PATH=/Applications/LibreOffice.app/Contents/MacOS/soffice
+export WORD2MD_SOFFICE_PATH=/Applications/LibreOffice.app/Contents/MacOS/soffice
 ```
 
 - Windows (PowerShell):
 
 ```powershell
 # set environment variable for current session
-$env:DOCX2MD_SOFFICE_PATH = 'C:\\Program Files\\LibreOffice\\program\\soffice.exe'
+$env:WORD2MD_SOFFICE_PATH = 'C:\\Program Files\\LibreOffice\\program\\soffice.exe'
 ```
 
 ## Usage
 
 ### Command Line Tool
 
-After installation, you can use the `docx2md` command:
+After installation, you can use the `word2md` command:
 
 ```bash
 # Convert single file
-docx2md document.docx
+word2md document.docx
 
 # Convert legacy .doc (requires LibreOffice)
-docx2md document.doc
+word2md document.doc
 
 # Specify output file
-docx2md document.docx -o output.md
+word2md document.docx -o output.md
 
 # Show verbose output
-docx2md document.docx -v
+word2md document.docx -v
 
 # Batch conversion
-docx2md *.docx -o output_directory/
+word2md *.docx -o output_directory/
 ```
 
 ### Python Script
@@ -121,7 +121,7 @@ python main.py document.docx
 The project is now organized as a modular package:
 
 ```text
-docx2md/
+word2md/
 ├── main.py                    # Main entry point
 ├── docx_converter/            # Main package
 │   ├── __init__.py           # Package initialization
@@ -232,7 +232,7 @@ This is a paragraph with **bold text**, _italic text_, and <u>underlined text</u
 ### Current Project Structure
 
 ```text
-docx2md/
+word2md/
 ├── main.py                    # Main entry point
 ├── docx_converter/            # Main package
 │   ├── __init__.py           # Package initialization

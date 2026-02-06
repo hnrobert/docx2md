@@ -13,13 +13,13 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
                     and not line.startswith("#")]
 
 setup(
-    name="docx2md",
+    name="word2md",
     version="1.0.0",
     author="hnrobert",
     description="A Python tool for converting Microsoft Word documents (.docx/.doc) to Markdown format",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/hnrobert/docx2md",
+    url="https://github.com/hnrobert/word2md",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -40,7 +40,7 @@ setup(
     install_requires=requirements,
     entry_points={
         "console_scripts": [
-            "docx2md=docx_converter.cli:main",
+            "word2md=docx_converter.cli:main",
         ],
     },
     include_package_data=True,
